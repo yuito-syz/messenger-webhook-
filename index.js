@@ -67,39 +67,12 @@ app.get('/webhook', (req, res) => {
     }
   });
 
-// Handles messages events
-function handleMessage(sender_psid, received_message) {
-
-}
-
-// Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
-
-}
-
-// Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
-  
-}
 
 body.entry.forEach(function(entry) {
 
   // Gets the body of the webhook event
   let webhook_event = entry.messaging[0];
   console.log(webhook_event);
-
-  // Get the sender PSID
-  let sender_psid = webhook_event.sender.id;
-  console.log('Sender PSID: ' + sender_psid);
-
-});
-
-body.entry.forEach(function(entry) {
-
-  // Gets the body of the webhook event
-  let webhook_event = entry.messaging[0];
-  console.log(webhook_event);
-
 
   // Get the sender PSID
   let sender_psid = webhook_event.sender.id;
@@ -112,25 +85,8 @@ body.entry.forEach(function(entry) {
   } else if (webhook_event.postback) {
     handlePostback(sender_psid, webhook_event.postback);
   }
-  
+
 });
-
-function handleMessage(sender_psid, received_message) {
-
-  let response;
-
-  // Check if the message contains text
-  if (received_message.text) {    
-
-    // Create the payload for a basic text message
-    response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
-    }
-  }  
-  
-  // Sends the response message
-  callSendAPI(sender_psid, response);    
-}
 
 function callSendAPI(sender_psid, response) {
   // Construct the message body
@@ -153,30 +109,6 @@ function callSendAPI(sender_psid, response) {
       console.error("Unable to send message:" + err);
     }
   }); 
-}
-
-function handleMessage(sender_psid, received_message) {
-
-  let response;
-
-  // Checks if the message contains text
-  if (received_message.text) {
-    
-    // Creates the payload for a basic text message, which
-    // will be added to the body of our request to the Send API
-    response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
-    }
-
-  } else if (received_message.attachments) {
-  
-    // Gets the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
-  
-  } 
-  
-  // Sends the response message
-  callSendAPI(sender_psid, response);    
 }
 
 function handleMessage(sender_psid, received_message) {
